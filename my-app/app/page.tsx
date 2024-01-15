@@ -4,10 +4,6 @@ import { motion } from "framer-motion"
 import './stylesheet.css';
 
 export default function Home() {
-<<<<<<< Updated upstream
-  return <>home</>;
-=======
-
     return (
         <>
             <div className="bigcontainer">
@@ -41,6 +37,5 @@ export default function Home() {
         </>
 
     );
->>>>>>> Stashed changes
 }
 
