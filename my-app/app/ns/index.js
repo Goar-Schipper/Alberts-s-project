@@ -1,9 +1,7 @@
 const express = require("express");
-const nsRoutes = require("../routes/nsRoutes");
-
 const app = express();
 
-app.use("/ns", nsRoutes);
+app.use("/ns");
 
 const PORT = 4000;
 app.listen(PORT, () => {

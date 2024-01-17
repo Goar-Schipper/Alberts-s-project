@@ -1,39 +1,57 @@
 "use client";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-function index() {
-  const [data, setData] = useState([]);
+import { GetAllData, GetNSDepartures, GetNSArrival } from "../ns/api";
 
+export default function index() {
+  const [departureData, setDepartureData] = useState([]);
+  const [arrivalData, setArrivalData] = useState([]);
   useEffect(() => {
-    async function getData() {
+    const loadData = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/ns");
-        const fetchedData = response.data.payload.departures;
-        // make fetched time mapped because its an array
-        const fetchedTime = fetchedData.map((item) => item.plannedDateTime);
-        console.log(fetchedData);
-        setData(fetchedData);
+        // make both API endpoints available
+        const [departureResponse, arrivalResponse] = await Promise.all([
+          GetNSDepartures(),
+          GetNSArrival(),
+        ]);
+        // get data from endpoints
+        const departureData = departureResponse.data.payload.departures;
+        const arrivalData = arrivalResponse.data.payload.departures;
+        // set state
+        setDepartureData(departureData);
+        setArrivalData(arrivalData);
+
+        console.log("This is your arrivaldata : ", arrivalData);
       } catch (err) {
-        console.error("No data fetched", err);
+        console.error(err);
       }
-    }
-    getData();
-  }, []); //unmount the useEffect after the GET request was succesfull
+    };
+    loadData();
+  }, []);
+
   return (
     <div>
-      {data.length > 0 ? (
-        data.map((item, index) => (
-          <div key={index}>
-            {item.name}
-            {item.direction}
-            {item.plannedDateTime}
-          </div>
-        ))
-      ) : (
-        <p>No data available</p>
-      )}
+      <div>
+        {departureData.length > 0 ? (
+          departureData.map((item, index) => (
+            <div
+              key={index}
+              className="w-[100vw] flex justify-evenly items-center text-center p-9"
+            >
+              <p>treinnummer {item.name}</p>
+              <p>gaat naar {item.direction}</p>
+              <p>vertrek tijd {item.plannedDateTime}</p>
+              <p className="flex justify-evenly w-[500px]">
+                stops:{" "}
+                {item.routeStations
+                  .map((station) => station.mediumName)
+                  .join(", ")}
+              </p>
+            </div>
+          ))
+        ) : (
+          <p>No data available</p>
+        )}
+      </div>
     </div>
   );
 }
-
-export default index;
