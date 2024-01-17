@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { GetAllData, GetNSDepartures, GetNSArrival } from "../ns/api";
+import { GetAllData, GetNSDepartures, GetNSArrival } from "./api";
 
-export default function index() {
+const Ns = () => {
   const [departureData, setDepartureData] = useState([]);
   const [arrivalData, setArrivalData] = useState([]);
   useEffect(() => {
@@ -55,3 +55,5 @@ export default function index() {
     </div>
   );
 }
+
+export default Ns;

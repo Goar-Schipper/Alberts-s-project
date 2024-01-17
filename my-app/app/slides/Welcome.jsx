@@ -1,10 +1,12 @@
 "use client";
 import React from 'react'
 
-export default function Home() {
+const Welcome = () => {
     return (
         <>
             <p>Welcome</p>
         </>
     );
 }
+
+export default Welcome;

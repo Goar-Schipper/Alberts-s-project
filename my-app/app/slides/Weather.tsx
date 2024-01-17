@@ -1,8 +1,8 @@
 "use client";
 import React from 'react'
-import './stylesheet.css'
+import './weatherStylesheet.css'
 
-export default function Home() {
+const Weather = () => {
     return (
         <>
             <div>
@@ -12,3 +12,5 @@ export default function Home() {
         </>
     );
 }
+
+export default Weather;
