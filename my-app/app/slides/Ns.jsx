@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { GetAllData, GetNSDepartures, GetNSArrival } from "./api";
-
-const Ns = () => {
+import "./ns-style.css";
+const Ns = ({ classState }) => {
   const [departureData, setDepartureData] = useState([]);
   const [arrivalData, setArrivalData] = useState([]);
   useEffect(() => {
@@ -30,7 +30,7 @@ const Ns = () => {
 
   return (
     <div>
-      <div>
+      <div className={classState}>
         {departureData.length > 0 ? (
           departureData.map((item, index) => (
             <div
@@ -54,6 +54,6 @@ const Ns = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Ns;
