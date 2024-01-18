@@ -2,3 +2,18 @@
     width: 550px;
     height: 512px;
 }
+
+.signlogo{
+    width: 300px;
+    height: auto;
+
+}
+
+.signlogocontainer{
+    display: flex;
+    justify-content: end;
+}
+
+body {
+    color: ;
+}
