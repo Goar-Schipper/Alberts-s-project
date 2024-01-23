@@ -1,6 +1,9 @@
 .weather-map {
-    width: 550px;
-    height: 512px;
+    width: 330px;
+    height: 330px;
+    outline: 8px solid white;
+    border-radius: 1px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 1);
 }
 
 .signlogo{
@@ -14,6 +17,72 @@
     justify-content: end;
 }
 
-body {
-    color: ;
+.page{
+    background-color: #fb5e8b;
+    min-width: 100vw;
+    min-height: 100vh;
 }
+
+.middle {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.text {
+    width: 500px;
+    word-wrap: break-word;
+    font-size: 20px;
+    color: white;
+}
+
+.text-around {
+    display: flex;
+    align-items: center;
+}
+
+.title {
+    font-size: 50px;
+    color: white;
+    padding-bottom: 3% ;
+    padding-top: 3%;
+}
+
+.title-around {
+    display: flex;
+    justify-content: space-evenly;
+    width: 50vw;
+}
+
+.bar {
+    width: 100vw;
+    height: 20px;
+    background-color: limegreen;
+}
+
+.bottom {
+    position: fixed;
+    bottom: 0;
+}
+
+.voordemakers-around{
+    color: limegreen;
+    font-size: 30px;
+    font-weight: bold;
+    width: 100vw;
+    display: flex;
+    align-items: end;
+    flex-direction: column;
+}
+
+.voor {
+    padding-left: 100px%
+}
+
+.creative {
+
+}
+
+.makers {
+
+}
+
