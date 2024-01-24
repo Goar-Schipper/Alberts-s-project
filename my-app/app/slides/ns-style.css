@@ -8,12 +8,12 @@
   transition: 1s ease;
   opacity: 1;
   left: 0;
-  position: absolute;
+  position: absolute;   
 }
 
 .none {
   position: absolute;
-  left: -1500px;
+  left: -3000px;
   opacity: 0;
   transition: 1s ease;
 }
