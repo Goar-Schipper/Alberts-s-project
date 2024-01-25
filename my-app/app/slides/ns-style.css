@@ -4,11 +4,31 @@
   box-sizing: border-box;
 }
 
+.ns-page {
+  background: #fb5e8b;
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  align-items: center;
+}
+
+.sign-logo-container {
+  display: flex;
+  position: absolute;
+  top: 0;
+  float: right;
+}
+
+.logo {
+  position: absolute;
+  max-width: 300px;
+}
+
 .active {
   transition: 1s ease;
   opacity: 1;
   left: 0;
-  position: absolute;   
+  position: absolute;
 }
 
 .none {

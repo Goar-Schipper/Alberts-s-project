@@ -7,7 +7,7 @@ import Welcome from "./Welcome";
 export default function Home() {
   // create a component array each item within is an object
   const components = [
-    // { component: <Ns />, classState: "active" },
+    { component: <Ns />, classState: "active" },
     { component: <Weather />, classState: "none" },
     { component: <Welcome />, classState: "none" },
   ];
@@ -24,18 +24,18 @@ export default function Home() {
   // at last render the component array via map
   return (
     <>
-          {components.length > 0 ? (
-            components.map((item, index) => (
-              <div
-                key={index}
-                className={index === currentIndex ? "active" : "none"}
-              >
-                {item.component}
-              </div>
-            ))
-          ) : (
-            <p>no component fetched</p>
-          )}
+      {components.length > 0 ? (
+        components.map((item, index) => (
+          <div
+            key={index}
+            className={index === currentIndex ? "active" : "none"}
+          >
+            {item.component}
+          </div>
+        ))
+      ) : (
+        <p>no component fetched</p>
+      )}
     </>
   );
 }

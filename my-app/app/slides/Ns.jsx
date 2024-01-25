@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { GetAllData, GetNSDepartures, GetNSArrival } from "./api";
 import "./ns-style.css";
+import Image from "next/image";
+import logo from "../../images/SignMedia.png";
 const Ns = ({ classState }) => {
   const [departureData, setDepartureData] = useState([]);
   const [arrivalData, setArrivalData] = useState([]);
@@ -29,7 +31,10 @@ const Ns = ({ classState }) => {
   }, []);
 
   return (
-    <div>
+    <div className="ns-page">
+      <div className="sign-logo-container">
+        <Image className="logo" src={logo} />
+      </div>
       <div className={classState}>
         {departureData.length > 0 ? (
           departureData.map((item, index) => (
