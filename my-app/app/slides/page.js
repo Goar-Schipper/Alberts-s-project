@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Ns from "./Ns";
 import Weather from "./Weather";
 import Welcome from "./Welcome";
+import './pageStylesheet.css';
 
 export default function Home() {
   // create a component array each item within is an object
@@ -23,7 +24,7 @@ export default function Home() {
 
   // at last render the component array via map
   return (
-    <>
+    <div className="page">
       {components.length > 0 ? (
         components.map((item, index) => (
           <div
@@ -36,6 +37,6 @@ export default function Home() {
       ) : (
         <p>no component fetched</p>
       )}
-    </>
+    </div>
   );
 }
