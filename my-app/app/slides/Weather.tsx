@@ -19,16 +19,6 @@ const Weather = () => {
                     <p className="text">ajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofgg</p>
                 </div>
             </div>
-            <div className="bottom">
-                <div className="voordemakers-around">
-                    <p className="voor">voor de</p>
-                    <p className="creative">creative</p>
-                    <p className="makers">makers</p>
-                </div>
-                <div className="bar-around">
-                    <div className="bar"></div>
-                </div>
-            </div>
         </div>
     );
 }

@@ -18,9 +18,10 @@
 }
 
 .page{
-    background-color: #fb5e8b;
+    background-color: #fb6e9a;
     min-width: 100vw;
-    min-height: 100vh;
+    min-height: 95vh;
+    max-height: 95vh;
 }
 
 .middle {
@@ -53,12 +54,6 @@
     width: 50vw;
 }
 
-.bar {
-    width: 100vw;
-    height: 20px;
-    background-color: limegreen;
-}
-
 .bottom {
     position: fixed;
     bottom: 0;
@@ -75,7 +70,7 @@
 }
 
 .voor {
-    padding-left: 100px%
+    padding-left: 100px;
 }
 
 .creative {

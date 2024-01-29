@@ -8,9 +8,9 @@ import './imageStylesheet.css'
 
 const Welcome = () => {
     return (
-        <>
+        <div className="kiekeboe">
             <Image className="Foto" src={Foto} alt={"hallo"}/>
-        </>
+        </div>
     );
 }
 

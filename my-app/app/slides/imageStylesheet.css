@@ -1,6 +1,10 @@
 .Foto{
-    max-height: 100vh;
-    min-height: 100vh;
-    max-width: 100vw;
-    min-width: 100vw;
+    height: 95vh;
+    width: auto;
+}
+
+.kiekeboe {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
 }
