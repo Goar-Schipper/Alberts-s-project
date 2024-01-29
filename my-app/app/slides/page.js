@@ -12,7 +12,7 @@ export default function Home() {
     { component: <Weather />, classState: "none" },
     { component: <Welcome />, classState: "none" },
   ];
-  // make an currentIndex state that determines which component the show
+  // make an currentIndex state that determines which component to show
   const [currentIndex, setCurrentIndex] = useState(0);
   // make a useEffect in which a setInterval which updates the currentIndex every 10 secs
   useEffect(() => {
