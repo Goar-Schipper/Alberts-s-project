@@ -21,10 +21,51 @@ export const addItem = async function (file) {
   }
 };
 
-export const getItem = async function () {
-    const q = query
-}
+export const addToSlideShow = async function (file) {
+  try {
+    await addDoc(collection(db, "slides"), {
+      url: file,
+    });
+  } catch (error) {
+    console.error(err);
+  }
+};
 
-export const deleteItem = function () {};
+export const getItems = async function () {
+  try {
+    const querySnapshot = await getDocs(collection(db, "images"));
 
-export const addToSlideShow = function () {};
+    const imagesArr = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    return imagesArr;
+  } catch (err) {
+    console.error("Error fetching images", err.message);
+    throw err;
+  }
+};
+
+export const getSlides = async function () {
+  try {
+    const querySnapshot = await getDocs(collection(db, "slides"));
+
+    const imagesArr = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    return imagesArr;
+  } catch (err) {
+    console.error("Error fetching images", err.message);
+    throw err;
+  }
+};
+
+export const deleteItem = async function (id) {
+  try {
+    await deleteDoc(doc(db, "images", id));
+    return true;
+  } catch (err) {
+    console.error(err);
+  }
+};

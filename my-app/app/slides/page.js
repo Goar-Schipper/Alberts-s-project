@@ -1,56 +1,85 @@
 "use client";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Ns from "./Ns";
 import Weather from "./Weather";
 import Welcome from "./Welcome";
-import './pageStylesheet.css';
+import { Img } from "./img";
+import "./pageStylesheet.css";
+import { getSlides } from "../admin/logic.";
 
 export default function Home() {
-  // create a component array each item within is an object
-  const components = [
-    // {component: <Ns/>, classState: "active"},
-    {component: <Weather/>, classState: "none"},
-    // {component: <Welcome/>, classState: "none"},
-  ];
+  const [images, setImages] = useState([]);
 
-  // make an currentIndex state that determines which component to show
-  const [currentIndex, setCurrentIndex] = useState(0);
-  // make a useEffect in which a setInterval which updates the currentIndex every 10 secs
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % components.length);
-    }, 10000);
-    return () => clearInterval(interval);
+    const fetchImages = async () => {
+      try {
+        const imagesArr = await getSlides();
+        setImages(imagesArr);
+      } catch (err) {
+        console.error("error fetching images", err.message);
+      }
+    };
+    fetchImages();
   }, []);
 
-  const Meldingen = ['hallo', 'goedemorgen', 'peiter', 'erisenduer', 'tygo is gay'];
+  const imageComponents =
+    images.length > 0
+      ? images.map((image, index) => ({
+          component: <Img key={index} index={index} image={image} />,
+          classState: index === 0 ? "active" : "none", // initially set to "active" for the first image
+        }))
+      : [];
 
-  // at last render the component array via map
+  const staticComponents = [
+    { component: <Ns />, classState: "none" },
+    { component: <Weather />, classState: "none" },
+    { component: <Welcome />, classState: "none" },
+  ];
+
+  const allComponents = [...staticComponents, ...imageComponents];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % allComponents.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [allComponents.length]);
+
+  const Meldingen = [
+    "hallo",
+    "goedemorgen",
+    "peiter",
+    "erisenduer",
+    "tygo is gay",
+  ];
+
   return (
-      <>
-        <div className="page">
-          {components.length > 0 ? (
-              components.map((item, index) => (
-                  <div
-                      key={index}
-                      className={index === currentIndex ? "active" : "none"}
-                  >
-                    {item.component}
-                  </div>
-              ))
-          ) : (
-              <p>no component fetched</p>
-          )}
-        </div>
-          <div className="bar">
-            <div className="bartext">
-                {Meldingen.map((item, index) => (
-                <p key={index}>{item}</p>
-                ))}
+    <>
+      <div className="page">
+        {allComponents.length > 0 ? (
+          allComponents.map((item, index) => (
+            <div
+              key={index}
+              className={index === currentIndex ? "active" : "none"}
+            >
+              {item.component}
             </div>
-          </div>
-      </>
+          ))
+        ) : (
+          <p>no component fetched</p>
+        )}
+      </div>
+
+      <div className="bar">
+        <div className="bartext">
+          {Meldingen.map((item, index) => (
+            <p key={index}>{item}</p>
+          ))}
+        </div>
+      </div>
+    </>
   );
 }
-
-
