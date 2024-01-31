@@ -7,10 +7,7 @@ import logo from '../../images/SignMedia.png'
 const Weather = () => {
 
     const d = new Date();
-    let time = d.getTime();
-    
-    const minute = 1000* 60;
-    const hour = minute * 60;
+    const currentHour = d.getHours();
 
     const [temp, setTemp] = useState([])
     useEffect(()=>{
@@ -34,9 +31,19 @@ const Weather = () => {
             <div className="middle">
                 <iframe scrolling="no" className="weather-map" src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=52.34167&lng=5.62083&overname=2&zoom=6&naam=harderwijk&size=2b&voor=1"></iframe>
                 <div className="text-around">
-                    {temp.hourly &&
-                        <p className="text">Het word vandaag {temp.hourly.temperature_2m[0]} graden, trek een dikke jas aan en hou rekening met kou</p>
-                    }
+                    {temp.hourly && temp.hourly.temperature_2m[currentHour] < 0 && (
+                        <p className="text">Opgelet! Het word vandaag {temp.hourly.temperature_2m[currentHour]} graden. Houd er rekening mee dat het buiten erg koud kan zijn. Zorg ervoor dat je warm gekleed bent. Houd bij het reizen naar school rekening met de mogelijk gladde wegen. Er is een mogelijkheid dat er treinen en bussen zijn die niet rijden dus houdt ook hier rekening mee.</p>
+                    )}
+                    {temp.hourly && temp.hourly.temperature_2m[currentHour] > 0 && temp.hourly.temperature_2m[currentHour] < 5 && (
+                        <p className="text">Het is nu {temp.hourly.temperature_2m[currentHour]} graden. Trek een dikke jas aan en houd rekening met de kou.</p>
+                    )}
+                    {temp.hourly && temp.hourly.temperature_2m[currentHour] > 5 && temp.hourly.temperature_2m[currentHour] < 10 && (
+                        <p className="text">Het is nu {temp.hourly.temperature_2m[currentHour]} graden. Trek een dikke jas aan en houd rekening met de kou.</p>
+                    )}
+                    {temp.hourly && temp.hourly.temperature_2m[currentHour] > 10 && temp.hourly.temperature_2m[currentHour] < 15 && (
+                        <p className="text">Het is nu {temp.hourly.temperature_2m[currentHour]} graden. Trek een dikke jas aan en houd rekening met de kou.</p>
+                    )}
+
                 </div>
             </div>
         </div>
