@@ -1,10 +1,11 @@
 import React from "react";
 
-export const Img = ({ index, image }) => {
-  console.log(image.url);
+export const Img = ({ image }) => {
+  console.log(image);
+  const imageUrl = image.url[0].url;
   return (
     <div>
-      <img key={index} src={image.url} alt={`slide ${index}`} />
+      <img src={imageUrl} alt={`slide ${image.id}`} />
     </div>
   );
 };
