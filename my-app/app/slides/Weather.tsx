@@ -1,10 +1,28 @@
 "use client";
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './weatherStylesheet.css';
 import Image from 'next/image';
 import logo from '../../images/SignMedia.png'
 
 const Weather = () => {
+
+    const d = new Date();
+    let time = d.getTime();
+    
+    const minute = 1000* 60;
+    const hour = minute * 60;
+
+    const [temp, setTemp] = useState([])
+    useEffect(()=>{
+        const getData = async () =>{
+            const query = await fetch('https://api.open-meteo.com/v1/forecast?latitude=52.33930511450778&longitude=5.61927080154419&hourly=temperature_2m&timezone=Europe%2FBerlin&forecast_days=1\n');
+            const response = await query.json();
+            console.log(response)
+            setTemp(response)
+        }
+        getData();
+    },[]);
+
     return (
         <div className="page">
             <div className='signlogocontainer'>
@@ -14,9 +32,11 @@ const Weather = () => {
                 <h1 className="title">Het Weerbericht</h1>
                </div>
             <div className="middle">
-                <iframe scrolling="no" className="weather-map" src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=52.34167&lng=5.62083&overname=2&zoom=13&naam=harderwijk&size=2b&voor=1"></iframe>
+                <iframe scrolling="no" className="weather-map" src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=52.34167&lng=5.62083&overname=2&zoom=6&naam=harderwijk&size=2b&voor=1"></iframe>
                 <div className="text-around">
-                    <p className="text">ajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofggajsdaksjdbkdfnwpefjoiewgfoiweofgg</p>
+                    {temp.hourly &&
+                        <p className="text">Het word vandaag {temp.hourly.temperature_2m[0]} graden, trek een dikke jas aan en hou rekening met kou</p>
+                    }
                 </div>
             </div>
         </div>

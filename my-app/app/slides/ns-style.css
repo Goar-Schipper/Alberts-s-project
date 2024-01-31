@@ -8,24 +8,21 @@
   background: #fb6e9a;
   min-height: 95vh;
   min-width: 100vw;
-  display: flex;
-  align-items: center;
+  color: white;
+  font-weight: bold;
+  font-size: x-large;
 }
 
 .sign-logo-container {
-  display: flex;
-  position: absolute;
-  top: 0;
-  float: right;
 }
 
 .logo {
-  position: absolute;
-  max-width: 300px;
+  width: auto;
+  height: 15vh;
 }
 
 .active {
-  transition: 1s ease;
+  transition: 2s ease;
   opacity: 1;
   left: 0;
   position: absolute;
@@ -36,4 +33,25 @@
   left: -3000px;
   opacity: 0;
   transition: 1s ease;
+}
+
+.lijst{
+  display: flex;
+  padding-top: 50px;
+  width: 100vw;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.direction{
+}
+
+.departures{
+
+}
+
+.trein{
+  padding-top: 2%;
+  padding-left: 24%;
+  font-size: xxx-large;
 }

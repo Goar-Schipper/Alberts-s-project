@@ -34,16 +34,20 @@
     word-wrap: break-word;
     font-size: 20px;
     color: white;
+    font-weight: bold;
 }
 
 .text-around {
     display: flex;
     align-items: center;
+    justify-content: start;
 }
 
 .title {
     font-size: 50px;
+    font-weight: bold;
     color: white;
+    padding-left: 4%;
     padding-bottom: 3% ;
     padding-top: 3%;
 }

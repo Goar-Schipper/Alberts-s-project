@@ -8,28 +8,10 @@ import './pageStylesheet.css';
 export default function Home() {
   // create a component array each item within is an object
   const components = [
-    {component: <Ns/>, classState: "active"},
+    // {component: <Ns/>, classState: "active"},
     {component: <Weather/>, classState: "none"},
-    {component: <Welcome/>, classState: "none"},
+    // {component: <Welcome/>, classState: "none"},
   ];
-
-
-    const ScrollingText = () => {
-        const [visibleWords, setVisibleWords] = useState([...wordsArray]);
-
-        useEffect(() => {
-            const intervalId = setInterval(() => {
-                setVisibleWords((prevWords) => {
-                    const shiftedWords = [...prevWords];
-                    const removedWord = shiftedWords.shift();
-                    shiftedWords.push(removedWord);
-                    return shiftedWords;
-                });
-            }, 2000); // Adjust the interval based on your preference
-
-            return () => clearInterval(intervalId);
-        }, []);
-
 
   // make an currentIndex state that determines which component to show
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -37,7 +19,7 @@ export default function Home() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % components.length);
-    }, 5000);
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -60,15 +42,13 @@ export default function Home() {
               <p>no component fetched</p>
           )}
         </div>
-        <div>
           <div className="bar">
-            <p className="bartext">
+            <div className="bartext">
                 {Meldingen.map((item, index) => (
                 <p key={index}>{item}</p>
                 ))}
-            </p>
+            </div>
           </div>
-        </div>
       </>
   );
 }
