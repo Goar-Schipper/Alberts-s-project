@@ -21,6 +21,16 @@ export const addItem = async function (file) {
   }
 };
 
+export const addMessage = async function (message) {
+  try {
+    await addDoc(collection(db, "messages"), {
+      message: message,
+    });
+  } catch (error) {
+    console.error("Error adding document: ", error);
+  }
+};
+
 export const addToSlideShow = async function (file) {
   try {
     await addDoc(collection(db, "slides"), {
@@ -40,6 +50,21 @@ export const getItems = async function () {
       id: doc.id,
     }));
     return imagesArr;
+  } catch (err) {
+    console.error("Error fetching images", err.message);
+    throw err;
+  }
+};
+
+export const getAllMessages = async function () {
+  try {
+    const querySnapshot = await getDocs(collection(db, "messages"));
+
+    const messagesArr = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    return messagesArr;
   } catch (err) {
     console.error("Error fetching images", err.message);
     throw err;

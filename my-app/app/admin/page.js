@@ -1,14 +1,24 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
-import { addItem, deleteItem, addToSlideShow, getItems } from "./logic.";
+import {addItem, deleteItem, addToSlideShow, getItems, addMessage,getAllMessages} from "./logic.";
 export default function page() {
+
   const [newItem, setNewItem] = useState("");
+  const [newMessage, setNewMessage] = useState("");
   const [images, setImages] = useState([]);
   const [slideshow, setSlideShow] = useState([]);
+  const [incomingMessage,setIncomingMessage] = useState([]);
   const handleUpload = async (e) => {
     e.preventDefault();
     await addItem(newItem);
     setNewItem("");
+    window.location.reload();
+  };
+  const UploadMessage = async (e) => {
+    e.preventDefault();
+    await addMessage(newMessage);
+    setNewMessage("");
     window.location.reload();
   };
 
@@ -50,31 +60,61 @@ export default function page() {
       console.error(err);
     }
   };
-  return (
-    <div>
-      <form method="post">
-        Image:
-        <input
-          type="url"
-          id="file"
-          value={newItem}
-          onChange={(e) => setNewItem(e.target.value)}
-        />
-        <button onClick={handleUpload}>Upload Image</button>
-      </form>
 
-      {/* images */}
-      <div className=" flex flex-col gap-5">
-        {images.map((image, index) => (
-          <div key={index} className="flex gap-5">
-            <img src={image.url} className="max-w-[200px]" />
-            <button onClick={() => handleDelete(image.id)}>Delete slide</button>
-            <button onClick={() => handleAddToSlideshow(image.id)}>
-              Add to slideshow
-            </button>
-          </div>
-        ))}
+  useEffect(() => {
+    const fetchMessages = async function() {
+      try {
+        const messages = await getAllMessages();
+        setIncomingMessage(messages)
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchMessages();
+  },[]);
+
+  return (
+      <div>
+        <form method="post">
+          Image:
+          <input
+              type="url"
+              id="file"
+              value={newItem}
+              onChange={(e) => setNewItem(e.target.value)}
+          />
+          <button onClick={handleUpload}>Upload Image</button>
+        </form>
+
+        <form method="post">
+          Message:
+          <input
+              type="text"
+              id="message"
+              onChange={(e) => setNewMessage(e.target.value)}
+          />
+          <button onClick={UploadMessage}>Upload Message</button>
+        </form>
+
+        {/* images */}
+        <div className=" flex flex-col gap-5">
+          {images.map((image, index) => (
+              <div key={index} className="flex gap-5">
+                <img src={image.url} className="max-w-[200px]"/>
+                <button onClick={() => handleDelete(image.id)}>Delete slide</button>
+                <button onClick={() => handleAddToSlideshow(image.id)}>
+                  Add to slideshow
+                </button>
+              </div>
+          ))}
+
+        {/*  messages*/}
+          {incomingMessage.map((msg,index) => (
+              <div key={index}>
+                <p>{msg.message}</p>
+              </div>
+          ))}
+        </div>
       </div>
-    </div>
   );
 }
