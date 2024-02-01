@@ -10,15 +10,28 @@ const Weather = () => {
     const currentHour = d.getHours();
 
     const [temp, setTemp] = useState([])
-    useEffect(()=>{
-        const getData = async () =>{
-            const query = await fetch('https://api.open-meteo.com/v1/forecast?latitude=52.33930511450778&longitude=5.61927080154419&hourly=temperature_2m&timezone=Europe%2FBerlin&forecast_days=1\n');
-            const response = await query.json();
-            console.log(response)
-            setTemp(response)
-        }
-        getData();
-    },[]);
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                const getData = async () =>{
+                    const query = await fetch('https://api.open-meteo.com/v1/forecast?latitude=52.33930511450778&longitude=5.61927080154419&hourly=temperature_2m&timezone=Europe%2FBerlin&forecast_days=1\n');
+                    const response = await query.json();
+                    console.log(response)
+                    setTemp(response)
+                }
+                getData();
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        loadData();
+        const intervalId = setInterval(async () => {
+            await loadData();
+        }, 60000);
+
+        // Clean up the interval when the component is unmounted or when needed
+        return () => clearInterval(intervalId);
+    }, []);
 
     return (
         <div className="page">

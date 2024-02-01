@@ -9,11 +9,29 @@
     height: 5vh;
     background-color: #1DFF00;
     display: flex;
+    overflow: hidden;
 }
 
 .bartext {
     width: 100vw;
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: scrollText 10s linear infinite; /* Adjust the duration as needed */
+}
+
+
+@keyframes scrollText {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+
+.bartext p{
+    padding-right: 100px;
 }

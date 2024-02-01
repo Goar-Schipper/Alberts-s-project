@@ -6,9 +6,22 @@ import Welcome from "./Welcome";
 import { Img } from "./img";
 import "./pageStylesheet.css";
 import { getSlides } from "../admin/logic.";
+import {getAllMessages} from "../admin/logic.";
 
 export default function Home() {
   const [images, setImages] = useState([]);
+  const [incomingMessage,setIncomingMessage] = useState([]);
+  useEffect(() => {
+    const fetchMessages = async function() {
+      try {
+        const messages = await getAllMessages();
+        setIncomingMessage(messages)
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchMessages();
+  },[]);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -48,38 +61,34 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [allComponents.length]);
 
-  const Meldingen = [
-    "hallo",
-    "goedemorgen",
-    "peiter",
-    "erisenduer",
-    "tygo is gay",
-  ];
-
   return (
-    <>
-      <div className="page">
-        {allComponents.length > 0 ? (
-          allComponents.map((item, index) => (
-            <div
-              key={index}
-              className={index === currentIndex ? "active" : "none"}
-            >
-              {item.component}
-            </div>
-          ))
-        ) : (
-          <p>no component fetched</p>
-        )}
-      </div>
-
-      <div className="bar">
-        <div className="bartext">
-          {Meldingen.map((item, index) => (
-            <p key={index}>{item}</p>
-          ))}
+      <>
+        <div className="page">
+          {allComponents.length > 0 ? (
+              allComponents.map((item, index) => (
+                  <div
+                      key={index}
+                      className={index === currentIndex ? "active" : "none"}
+                  >
+                    {item.component}
+                  </div>
+              ))
+          ) : (
+              <p>no component fetched</p>
+          )}
         </div>
-      </div>
-    </>
+
+        <div className="bar">
+          <div className="bartext">
+            {/* messages */}
+            {incomingMessage.map((msg, index) => (
+                <div key={index}>
+                  <p>{msg.message}</p>
+                </div>
+            ))}
+          </div>
+
+        </div>
+      </>
   );
 }
