@@ -1,10 +1,15 @@
 import React from "react";
 
-export const Img = ({ index, image }) => {
-  console.log(image.url);
+export const Img = ({ image }) => {
+  console.log(image);
+  const imageUrl = image.url[0].url;
   return (
-    <div>
-      <img key={index} src={image.url} alt={`slide ${index}`} />
+    <div className="flex w-[100vw] h-[90vh] items-center justify-center">
+      <img
+        className="min-w-[auto] min-h-[100vh]"
+        src={imageUrl}
+        alt={`slide ${image.id}`}
+      />
     </div>
   );
 };

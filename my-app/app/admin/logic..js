@@ -11,16 +11,17 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 
-export const addItem = async function (file) {
+export const addItem = async function (dataUrl) {
+  console.log("Adding Item:", dataUrl);
+
   try {
     await addDoc(collection(db, "images"), {
-      url: file,
+      url: dataUrl,
     });
   } catch (error) {
     console.error("Error adding document: ", error);
   }
 };
-
 export const addMessage = async function (message) {
   try {
     await addDoc(collection(db, "messages"), {
@@ -89,6 +90,15 @@ export const getSlides = async function () {
 export const deleteItem = async function (id) {
   try {
     await deleteDoc(doc(db, "images", id));
+    return true;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const deleteMessage = async function (id) {
+  try {
+    await deleteDoc(doc(db, "messages", id));
     return true;
   } catch (err) {
     console.error(err);
