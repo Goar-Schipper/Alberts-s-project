@@ -1,3 +1,5 @@
+// this is an older working version that doesnt use the file system
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -16,36 +18,12 @@ export default function page() {
   const [images, setImages] = useState([]);
   const [slideshow, setSlideShow] = useState([]);
   const [incomingMessage, setIncomingMessage] = useState([]);
-
   const handleUpload = async (e) => {
     e.preventDefault();
-    console.log("clicked handle upload");
-
-    // Check if files are present
-    if (newItem) {
-      // Access the file from the event's target files array
-      const file = newItem;
-
-      const reader = new FileReader();
-      reader.onload = async (event) => {
-        const dataUrl = event.target.result;
-
-        console.log("File:", file); // Log the file information here
-
-        // Call addItem with the data URL
-        await addItem(dataUrl);
-
-        // Clear the input field and reload the page
-        setNewItem("");
-        window.location.reload();
-      };
-
-      reader.readAsDataURL(file);
-    } else {
-      console.error("No files selected.");
-    }
+    await addItem(newItem);
+    setNewItem("");
+    window.location.reload();
   };
-
   const UploadMessage = async (e) => {
     e.preventDefault();
     await addMessage(newMessage);
@@ -106,6 +84,7 @@ export default function page() {
 
   const handleDeleteMsg = async function (id) {
     try {
+
       await deleteMessage(id);
       setIncomingMessage((prevIncomingMessage) =>
         prevIncomingMessage.filter(
@@ -122,10 +101,10 @@ export default function page() {
       <form method="post">
         Image:
         <input
-          type="file"
+          type="url"
           id="file"
-          accept="*/*"
-          onChange={(e) => setNewItem(e.target.files[0])}
+          value={newItem}
+          onChange={(e) => setNewItem(e.target.value)}
         />
         <button onClick={handleUpload}>Upload Image</button>
       </form>
