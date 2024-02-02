@@ -32,12 +32,19 @@ export const addMessage = async function (message) {
   }
 };
 
+export const deleteSlide = async function (id) {
+  try {
+    await deleteDoc(doc(db, "slides", id));
+    return true;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const addToSlideShow = async function (file) {
   try {
-    await addDoc(collection(db, "slides"), {
-      url: file,
-    });
-  } catch (error) {
+    await addDoc(collection(db, "slides"), file);
+  } catch (err) {
     console.error(err);
   }
 };

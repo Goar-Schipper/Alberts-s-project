@@ -1,5 +1,3 @@
-// this is an older working version that doesnt use the file system
-
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -18,12 +16,53 @@ export default function page() {
   const [images, setImages] = useState([]);
   const [slideshow, setSlideShow] = useState([]);
   const [incomingMessage, setIncomingMessage] = useState([]);
+
+  // auth
+  const [pass, setPass] = useState("hond");
+  const [passField, setPassField] = useState("");
+  const [authState, setAuthState] = useState(false);
+
+  const handleAuth = function (e) {
+    e.preventDefault();
+    if (passField === pass) {
+      alert("Welcome admin ");
+      setAuthState(true);
+      setPassField("");
+    } else {
+      alert("password incorrect");
+      setAuthState(false);
+    }
+  };
+
   const handleUpload = async (e) => {
     e.preventDefault();
-    await addItem(newItem);
-    setNewItem("");
-    window.location.reload();
+    console.log("clicked handle upload");
+
+    // Check if files are present
+    if (newItem) {
+      // Access the file from the event's target files array
+      const file = newItem;
+
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        const dataUrl = event.target.result;
+
+        console.log("File:", file); // Log the file information here
+
+        // Call addItem with the data URL
+        await addItem(dataUrl);
+
+        // Clear the input field and reload the page
+        setNewItem("");
+        window.location.reload();
+      };
+
+      reader.readAsDataURL(file);
+    } else {
+      console.error("No files selected.");
+    }
   };
+
   const UploadMessage = async (e) => {
     e.preventDefault();
     await addMessage(newMessage);
@@ -84,7 +123,6 @@ export default function page() {
 
   const handleDeleteMsg = async function (id) {
     try {
-
       await deleteMessage(id);
       setIncomingMessage((prevIncomingMessage) =>
         prevIncomingMessage.filter(
@@ -98,47 +136,62 @@ export default function page() {
 
   return (
     <div>
-      <form method="post">
-        Image:
-        <input
-          type="url"
-          id="file"
-          value={newItem}
-          onChange={(e) => setNewItem(e.target.value)}
-        />
-        <button onClick={handleUpload}>Upload Image</button>
-      </form>
+      {authState ? (
+        <>
+          <p>Welcome admin</p>
+          <form method="post">
+            Image:
+            <input
+              type="file"
+              id="file"
+              accept="*/*"
+              onChange={(e) => setNewItem(e.target.files[0])}
+            />
+            <button onClick={handleUpload}>Upload Image</button>
+          </form>
 
-      <form method="post">
-        Message:
-        <input
-          type="text"
-          id="message"
-          onChange={(e) => setNewMessage(e.target.value)}
-        />
-        <button onClick={UploadMessage}>Upload Message</button>
-      </form>
+          <form method="post">
+            Message:
+            <input
+              type="text"
+              id="message"
+              onChange={(e) => setNewMessage(e.target.value)}
+            />
+            <button onClick={UploadMessage}>Upload Message</button>
+          </form>
 
-      {/* images */}
-      <div className=" flex flex-col gap-5">
-        {images.map((image, index) => (
-          <div key={index} className="flex gap-5">
-            <img src={image.url} className="max-w-[200px]" />
-            <button onClick={() => handleDelete(image.id)}>Delete slide</button>
-            <button onClick={() => handleAddToSlideshow(image.id)}>
-              Add to slideshow
-            </button>
+          {/* images */}
+          <div className="flex flex-col gap-5">
+            {images.map((image, index) => (
+              <div key={index} className="flex gap-5">
+                <img src={image.url} className="max-w-[200px]" />
+                <button onClick={() => handleDelete(image.id)}>
+                  Delete slide
+                </button>
+                <button onClick={() => handleAddToSlideshow(image.id)}>
+                  Add to slideshow
+                </button>
+              </div>
+            ))}
+
+            {/* messages */}
+            {incomingMessage.map((msg, index) => (
+              <div key={index}>
+                <p>{msg.message}</p>
+                <button onClick={() => handleDeleteMsg(msg.id)}>Delete</button>
+              </div>
+            ))}
           </div>
-        ))}
-
-        {/*  messages*/}
-        {incomingMessage.map((msg, index) => (
-          <div key={index}>
-            <p>{msg.message}</p>
-            <button onClick={() => handleDeleteMsg(msg.id)}>Delete</button>
-          </div>
-        ))}
-      </div>
+        </>
+      ) : (
+        <form method="post">
+          <input
+            type="password"
+            onChange={(e) => setPassField(e.target.value)}
+          ></input>
+          <button onClick={handleAuth}>Login</button>
+        </form>
+      )}
     </div>
   );
 }

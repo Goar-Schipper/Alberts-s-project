@@ -9,6 +9,8 @@ import {
   addMessage,
   getAllMessages,
   deleteMessage,
+  getSlides,
+  deleteSlide,
 } from "./logic.";
 export default function page() {
   const [newItem, setNewItem] = useState("");
@@ -16,6 +18,23 @@ export default function page() {
   const [images, setImages] = useState([]);
   const [slideshow, setSlideShow] = useState([]);
   const [incomingMessage, setIncomingMessage] = useState([]);
+
+  // auth
+  const [pass, setPass] = useState("hond");
+  const [passField, setPassField] = useState("");
+  const [authState, setAuthState] = useState(false);
+
+  const handleAuth = function (e) {
+    e.preventDefault();
+    if (passField === pass) {
+      alert("Welcome admin ");
+      setAuthState(true);
+      setPassField("");
+    } else {
+      alert("password incorrect");
+      setAuthState(false);
+    }
+  };
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -35,9 +54,8 @@ export default function page() {
         // Call addItem with the data URL
         await addItem(dataUrl);
 
-        // Clear the input field and reload the page
+        // Clear the input field
         setNewItem("");
-        window.location.reload();
       };
 
       reader.readAsDataURL(file);
@@ -64,6 +82,20 @@ export default function page() {
       }
     };
     fetchImages();
+  }, [newItem]);
+
+  // get slideshow
+  useEffect(() => {
+    const fetchSlides = async () => {
+      try {
+        const slidesArr = await getSlides();
+        setSlideShow(slidesArr);
+        console.log(slidesArr);
+      } catch (err) {
+        console.error("erro fetching slides", err);
+      }
+    };
+    fetchSlides();
   }, []);
 
   // handle delete
@@ -76,16 +108,27 @@ export default function page() {
     }
   };
 
+  // handle delete from slides
+  const handleDeleteSlides = async (id) => {
+    try {
+      await deleteSlide(id);
+      setSlideShow((prevImages) =>
+        prevImages.filter((image) => image.id !== id)
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const handleAddToSlideshow = async (id) => {
     try {
       const selectedImage = images.find((image) => image.id === id);
       if (selectedImage) {
         // Update the slideshow state with only the selected image
-        setSlideShow([selectedImage]);
-        console.log([selectedImage]);
+        setSlideShow((prevImages) => [...prevImages, selectedImage]);
 
         // Call addToSlideShow with the selected image
-        addToSlideShow([selectedImage]);
+        await addToSlideShow(selectedImage);
       }
     } catch (err) {
       console.error(err);
@@ -119,47 +162,75 @@ export default function page() {
 
   return (
     <div>
-      <form method="post">
-        Image:
-        <input
-          type="file"
-          id="file"
-          accept="*/*"
-          onChange={(e) => setNewItem(e.target.files[0])}
-        />
-        <button onClick={handleUpload}>Upload Image</button>
-      </form>
+      {authState ? (
+        <>
+          <p>Welcome admin</p>
+          <form method="post">
+            Image:
+            <input
+              type="file"
+              id="file"
+              accept="*/*"
+              onChange={(e) => setNewItem(e.target.files[0])}
+            />
+            <button onClick={handleUpload}>Upload Image</button>
+          </form>
 
-      <form method="post">
-        Message:
-        <input
-          type="text"
-          id="message"
-          onChange={(e) => setNewMessage(e.target.value)}
-        />
-        <button onClick={UploadMessage}>Upload Message</button>
-      </form>
+          <form method="post">
+            Message:
+            <input
+              type="text"
+              id="message"
+              onChange={(e) => setNewMessage(e.target.value)}
+            />
+            <button onClick={UploadMessage}>Upload Message</button>
+          </form>
 
-      {/* images */}
-      <div className=" flex flex-col gap-5">
-        {images.map((image, index) => (
-          <div key={index} className="flex gap-5">
-            <img src={image.url} className="max-w-[200px]" />
-            <button onClick={() => handleDelete(image.id)}>Delete slide</button>
-            <button onClick={() => handleAddToSlideshow(image.id)}>
-              Add to slideshow
-            </button>
+          {/* images */}
+          <div className="flex flex-col gap-5">
+            {images.map((image, index) => (
+              <div key={index} className="flex gap-5">
+                <img src={image.url} className="max-w-[200px]" />
+                <button onClick={() => handleDelete(image.id)}>
+                  Delete image
+                </button>
+                <button onClick={() => handleAddToSlideshow(image.id)}>
+                  Add to slideshow
+                </button>
+              </div>
+            ))}
+
+            {/* messages */}
+            {incomingMessage.map((msg, index) => (
+              <div key={index}>
+                <p>{msg.message}</p>
+                <button onClick={() => handleDeleteMsg(msg.id)}>Delete</button>
+              </div>
+            ))}
           </div>
-        ))}
 
-        {/*  messages*/}
-        {incomingMessage.map((msg, index) => (
-          <div key={index}>
-            <p>{msg.message}</p>
-            <button onClick={() => handleDeleteMsg(msg.id)}>Delete</button>
-          </div>
-        ))}
-      </div>
+          {/* slideshow */}
+          {slideshow.map((slide, index) => (
+            <div key={index} className="p-5">
+              <img src={slide.url} className="max-w-[100px]" />
+              <button
+                className="text-red-500"
+                onClick={() => handleDeleteSlides(slide.id)}
+              >
+                delete slide
+              </button>
+            </div>
+          ))}
+        </>
+      ) : (
+        <form method="post">
+          <input
+            type="password"
+            onChange={(e) => setPassField(e.target.value)}
+          ></input>
+          <button onClick={handleAuth}>Login</button>
+        </form>
+      )}
     </div>
   );
 }
