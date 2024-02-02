@@ -45,16 +45,25 @@ const Weather = () => {
                 <iframe scrolling="no" className="weather-map" src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=52.34167&lng=5.62083&overname=2&zoom=6&naam=harderwijk&size=2b&voor=1"></iframe>
                 <div className="text-around">
                     {temp.hourly && temp.hourly.temperature_2m[currentHour] < 0 && (
-                        <p className="text">Opgelet! Het word vandaag {temp.hourly.temperature_2m[currentHour]} graden. Houd er rekening mee dat het buiten erg koud kan zijn. Zorg ervoor dat je warm gekleed bent. Houd bij het reizen naar school rekening met de mogelijk gladde wegen. Er is een mogelijkheid dat er treinen en bussen zijn die niet rijden dus houdt ook hier rekening mee.</p>
+                        <p className="text">Opgelet! Het word vandaag {temp.hourly.temperature_2m[currentHour]} graden.</p>
                     )}
                     {temp.hourly && temp.hourly.temperature_2m[currentHour] > 0 && temp.hourly.temperature_2m[currentHour] < 5 && (
-                        <p className="text">Het is nu {temp.hourly.temperature_2m[currentHour]} graden. Trek een dikke jas aan en houd rekening met de kou.</p>
+                        <p className="text">Het is nu {temp.hourly.temperature_2m[currentHour]} graden.</p>
                     )}
                     {temp.hourly && temp.hourly.temperature_2m[currentHour] > 5 && temp.hourly.temperature_2m[currentHour] < 10 && (
-                        <p className="text">Het is nu {temp.hourly.temperature_2m[currentHour]} graden. Trek een dikke jas aan en houd rekening met de kou.</p>
+                        <p className="text">Het is nu {temp.hourly.temperature_2m[currentHour]} graden.</p>
                     )}
                     {temp.hourly && temp.hourly.temperature_2m[currentHour] > 10 && temp.hourly.temperature_2m[currentHour] < 15 && (
-                        <p className="text">Het is nu {temp.hourly.temperature_2m[currentHour]} graden. Trek een dikke jas aan en houd rekening met de kou.</p>
+                        <p className="text">Het is nu {temp.hourly.temperature_2m[currentHour]} graden.</p>
+                    )}
+                    {temp.hourly && temp.hourly.temperature_2m[currentHour] > 15 && temp.hourly.temperature_2m[currentHour] < 20 && (
+                        <p className="text">Het is nu {temp.hourly.temperature_2m[currentHour]} graden.</p>
+                    )}
+                    {temp.hourly && temp.hourly.temperature_2m[currentHour] > 20 && temp.hourly.temperature_2m[currentHour] < 25 && (
+                        <p className="text">Het is nu {temp.hourly.temperature_2m[currentHour]} graden.</p>
+                    )}
+                    {temp.hourly && temp.hourly.temperature_2m[currentHour] > 25 && (
+                        <p className="text">Het is nu {temp.hourly.temperature_2m[currentHour]} graden.</p>
                     )}
 
                 </div>
