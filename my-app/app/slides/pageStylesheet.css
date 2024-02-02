@@ -18,7 +18,8 @@
     align-items: center;
     overflow: hidden;
     white-space: nowrap;
-    animation: scrollText 10s linear infinite; /* Adjust the duration as needed */
+    animation: scrollText 20s linear infinite; /* Adjust the duration as needed */
+    justify-content: space-evenly;
 }
 
 
@@ -29,9 +30,4 @@
     100% {
         transform: translateX(-100%);
     }
-}
-
-
-.bartext p{
-    padding-right: 100px;
 }
